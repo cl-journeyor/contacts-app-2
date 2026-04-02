@@ -1,5 +1,39 @@
+:root {
+  --padding: 4px;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+.cell {
+  overflow-wrap: anywhere;
+  padding: var(--padding);
+}
+
+.contact-widget {
+  display: flex;
+}
+
+.contacts-view {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+}
+
+.iconic-btn {
+  display: flex;
+  font-size: 1em;
+  padding: var(--padding);
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-row {
+  display: flex;
 }
