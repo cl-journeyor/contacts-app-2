@@ -1,4 +1,5 @@
-(ns contacts-app-2.vars)
+(ns contacts-app-2.vars
+  (:require [reagent.core :as r]))
 
 (def states #{:reading
               :updating
@@ -7,4 +8,4 @@
               :searching-by-name
               :searching-by-group})
 
-(def state {})
+(def state (r/atom {:state (states :reading)}))
