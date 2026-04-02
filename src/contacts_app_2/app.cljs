@@ -4,7 +4,7 @@
 
 (defn app
   []
-  [:div.contacts-view {:style {:background "#9a4949"}}
+  [:div.app-container {:style {:background "#9a4949"}}
    [header]
    [:div.content]
    [footer]])

@@ -3,7 +3,7 @@
 
 (defn header
   []
-  [:div.header (case (@vars/state :state)
+  [:div.header (case (@vars/state :status)
                  :updating "Update contact"
                  :creating "Create contact"
                  "Contacts")])

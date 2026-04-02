@@ -12,6 +12,12 @@
   padding: 0;
 }
 
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+}
+
 .cell {
   overflow-wrap: anywhere;
   padding: var(--padding);
@@ -19,12 +25,6 @@
 
 .contact-widget {
   display: flex;
-}
-
-.contacts-view {
-  display: flex;
-  flex-direction: column;
-  height: 100dvh;
 }
 
 .content {

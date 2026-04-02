@@ -8,7 +8,7 @@
 
 (defn footer
   []
-  [:div.footer (case (@vars/state :state)
+  [:div.footer (case (@vars/state :status)
                  :updating [updating-creating]
                  :deleting [deleting]
                  :creating [updating-creating]
