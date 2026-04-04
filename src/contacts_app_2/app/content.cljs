@@ -6,6 +6,7 @@
 (defn content
   []
   (let [status (@vars/state :status)]
-    (if (or (= status :updating) (= status :creating))
-      [contact-form]
-      [contacts])))
+    [:div.content
+     (if (or (= status :updating) (= status :creating))
+       [contact-form]
+       [contacts])]))

@@ -28,6 +28,8 @@
 }
 
 .content {
+  display: flex;
+  flex-direction: column;
   flex-grow: 1;
   overflow: auto;
 }
@@ -39,6 +41,11 @@
 }
 
 .iconic-btn {
+  background: purple;
+  border-color: white;
+  border-radius: 7px;
+  border-style: solid;
+  border-width: 1px;
   display: flex;
   font-size: 1em;
   padding: var(--padding);
