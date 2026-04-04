@@ -3,8 +3,6 @@
             [contacts-app-2.vars :as vars]
             [phosphor.icons :as icons]))
 
-(def ^:private em-width {:width "1em"})
-
 (defn- toggle-widget-expanded!
   [contact-id]
   (swap!
@@ -23,32 +21,34 @@
    [:div
     [:button.iconic-btn {:on-click (fn [] (toggle-widget-expanded! id))}
      (if expanded?
-       (-> (icons/icon :phosphor.regular/caret-up) (icons/render em-width))
-       (-> (icons/icon :phosphor.regular/caret-down) (icons/render em-width)))]]
+       (-> (icons/icon :phosphor.regular/caret-up)
+           (icons/render (vars/icon-widths :small)))
+       (-> (icons/icon :phosphor.regular/caret-down)
+           (icons/render (vars/icon-widths :small))))]]
    [:div.flex-column
     [:div.flex-row
      [:div.cell (-> (icons/icon :phosphor.regular/user)
-                    (icons/render em-width))]
+                    (icons/render (vars/icon-widths :small)))]
      [:div.cell name]]
     (when expanded?
       [:div.flex-column
        [:div.flex-row
         [:div.cell (-> (icons/icon :phosphor.regular/phone)
-                       (icons/render em-width))]
+                       (icons/render (vars/icon-widths :small)))]
         [:div.cell phone]]
        [:div.flex-row
         [:div.cell (-> (icons/icon :phosphor.regular/at)
-                       (icons/render em-width))]
+                       (icons/render (vars/icon-widths :small)))]
         [:div.cell email]]
        [:div.flex-row
         [:div.cell (-> (icons/icon :phosphor.regular/users-three)
-                       (icons/render em-width))]
+                       (icons/render (vars/icon-widths :small)))]
         [:div.cell (str/join ", " groups)]]
        [:div.flex-row
         [:button.iconic-btn (-> (icons/icon :phosphor.regular/pencil-simple)
-                                (icons/render em-width))]
+                                (icons/render (vars/icon-widths :medium)))]
         [:button.iconic-btn (-> (icons/icon :phosphor.regular/trash)
-                                (icons/render em-width))]]])]])
+                                (icons/render (vars/icon-widths :medium)))]]])]])
 
 (defn contacts
   []

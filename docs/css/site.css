@@ -62,4 +62,5 @@
 
 .footer {
   background: purple;
+  display: flex;
 }
