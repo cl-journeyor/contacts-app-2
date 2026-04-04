@@ -1,5 +1,6 @@
 (ns contacts-app-2.components.contact-widget
-  (:require [phosphor.icons :as icons]))
+  (:require [clojure.string :as str]
+            [phosphor.icons :as icons]))
 
 (def ^:private em-width {:width "1em"})
 
@@ -26,7 +27,7 @@
      [:div.flex-row
       [:div.cell (-> (icons/icon :phosphor.regular/users-three)
                      (icons/render em-width))]
-      [:div.cell groups]]
+      [:div.cell (str/join ", " groups)]]
      [:div.flex-row
       [:button.iconic-btn (-> (icons/icon :phosphor.regular/pencil-simple)
                               (icons/render em-width))]
