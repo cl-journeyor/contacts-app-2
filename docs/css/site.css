@@ -34,6 +34,19 @@
   overflow: auto;
 }
 
+.four-x-four-btn {
+  background: purple;
+  border-color: white;
+  border-radius: 7px;
+  border-style: solid;
+  border-width: 1px;
+  display: grid;
+  font-size: 1em;
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
+  padding: var(--padding);
+}
+
 .header {
   background: purple;
   padding: var(--padding);

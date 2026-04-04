@@ -19,7 +19,8 @@
   [{:keys [id name phone email groups]} expanded?]
   [:div.contact-widget
    [:div
-    [:button.iconic-btn {:on-click (fn [] (toggle-widget-expanded! id))}
+    [:button.iconic-btn {:type "button"
+                         :on-click (fn [] (toggle-widget-expanded! id))}
      (if expanded?
        (-> (icons/icon :phosphor.regular/caret-up)
            (icons/render (vars/icon-widths :small)))
@@ -45,10 +46,12 @@
                        (icons/render (vars/icon-widths :small)))]
         [:div.cell (str/join ", " groups)]]
        [:div.flex-row
-        [:button.iconic-btn (-> (icons/icon :phosphor.regular/pencil-simple)
-                                (icons/render (vars/icon-widths :medium)))]
-        [:button.iconic-btn (-> (icons/icon :phosphor.regular/trash)
-                                (icons/render (vars/icon-widths :medium)))]]])]])
+        [:button.iconic-btn {:type "button"}
+         (-> (icons/icon :phosphor.regular/pencil-simple)
+             (icons/render (vars/icon-widths :medium)))]
+        [:button.iconic-btn {:type "button"}
+         (-> (icons/icon :phosphor.regular/trash)
+             (icons/render (vars/icon-widths :medium)))]]])]])
 
 (defn contacts
   []
