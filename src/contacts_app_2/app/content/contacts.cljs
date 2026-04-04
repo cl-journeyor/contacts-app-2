@@ -1,12 +1,12 @@
 (ns contacts-app-2.app.content.contacts
   (:require [clojure.string :as str]
-            [contacts-app-2.domain :as domain]
+            [contacts-app-2.vars :as vars]
             [phosphor.icons :as icons]))
 
 (def ^:private em-width {:width "1em"})
 
 (defn- contact-widget
-  [{:keys [id name phone email groups]}]
+  [{:keys [id name phone email groups]} expanded?]
   [:div.contact-widget
    [:div
     [:button.iconic-btn (-> (icons/icon :phosphor.regular/caret-down)
@@ -38,5 +38,5 @@
 (defn contacts
   []
   [:<>
-   (for [c (domain/read-contacts!)]
-     ^{:key (c :id)} [contact-widget c])])
+   (for [{:keys [contact expanded?]} (@vars/state :widget-states)]
+     ^{:key (contact :id)} [contact-widget contact expanded?])])
