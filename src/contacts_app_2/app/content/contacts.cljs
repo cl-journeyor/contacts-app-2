@@ -5,11 +5,23 @@
 
 (def ^:private em-width {:width "1em"})
 
+(defn- toggle-widget-expanded!
+  [contact-id]
+  (swap!
+   vars/state
+   (fn [prev]
+     (let [new-widget-states (mapv
+                              #(if (= (-> % :contact :id) contact-id)
+                                 (update % :expanded? not)
+                                 %)
+                              (prev :widget-states))]
+       (assoc prev :widget-states new-widget-states)))))
+
 (defn- contact-widget
   [{:keys [id name phone email groups]} expanded?]
   [:div.contact-widget
    [:div
-    [:button.iconic-btn
+    [:button.iconic-btn {:on-click (fn [] (toggle-widget-expanded! id))}
      (if expanded?
        (-> (icons/icon :phosphor.regular/caret-up) (icons/render em-width))
        (-> (icons/icon :phosphor.regular/caret-down) (icons/render em-width)))]]
