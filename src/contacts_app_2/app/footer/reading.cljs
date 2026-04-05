@@ -23,6 +23,10 @@
 
 ;;;; Private button handlers.
 
+(defn- handle-create-contact!
+  []
+  (swap! sh/state (fn [prev] (assoc prev :status (sh/statuses :creating)))))
+
 (defn- reset-contacts!
   []
   (swap!
@@ -57,7 +61,7 @@
    [iconic-btn
     (-> (icons/icon :phosphor.regular/user-plus)
         (icons/render (sh/icon-widths :large)))
-    identity]
+    handle-create-contact!]
    [search-by-btn
     (-> (icons/icon :phosphor.regular/user)
         (icons/render (sh/icon-widths :small)))

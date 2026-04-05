@@ -1,7 +1,7 @@
 (ns contacts-app-2.core
   (:require
    [contacts-app-2.app :refer [app]]
-   [reagent.dom :as d]))
+   [reagent.dom.client :as rdc]))
 
 ;; -------------------------
 ;; Initialize app
@@ -56,7 +56,9 @@
     (.setItem js/localStorage "contacts" (str data))))
 
 (defn mount-root []
-  (d/render [app] (.getElementById js/document "app")))
+  (-> (.getElementById js/document "app")
+      rdc/create-root
+      (rdc/render [app])))
 
 (defn ^:export init! []
   (mount-root))
