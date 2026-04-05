@@ -1,12 +1,12 @@
 (ns contacts-app-2.app.content.contacts
   (:require [clojure.string :as str]
-            [contacts-app-2.vars :as vars]
+            [contacts-app-2.shared :as sh]
             [phosphor.icons :as icons]))
 
 (defn- toggle-widget-expanded!
   [contact-id]
   (swap!
-   vars/state
+   sh/state
    (fn [prev]
      (let [new-widget-states (mapv
                               #(if (= (-> % :contact :id) contact-id)
@@ -23,38 +23,38 @@
                          :on-click (fn [] (toggle-widget-expanded! id))}
      (if expanded?
        (-> (icons/icon :phosphor.regular/caret-up)
-           (icons/render (vars/icon-widths :small)))
+           (icons/render (sh/icon-widths :small)))
        (-> (icons/icon :phosphor.regular/caret-down)
-           (icons/render (vars/icon-widths :small))))]]
+           (icons/render (sh/icon-widths :small))))]]
    [:div.flex-column
     [:div.flex-row
      [:div.cell (-> (icons/icon :phosphor.regular/user)
-                    (icons/render (vars/icon-widths :small)))]
+                    (icons/render (sh/icon-widths :small)))]
      [:div.cell name]]
     (when expanded?
       [:div.flex-column
        [:div.flex-row
         [:div.cell (-> (icons/icon :phosphor.regular/phone)
-                       (icons/render (vars/icon-widths :small)))]
+                       (icons/render (sh/icon-widths :small)))]
         [:div.cell phone]]
        [:div.flex-row
         [:div.cell (-> (icons/icon :phosphor.regular/at)
-                       (icons/render (vars/icon-widths :small)))]
+                       (icons/render (sh/icon-widths :small)))]
         [:div.cell email]]
        [:div.flex-row
         [:div.cell (-> (icons/icon :phosphor.regular/users-three)
-                       (icons/render (vars/icon-widths :small)))]
+                       (icons/render (sh/icon-widths :small)))]
         [:div.cell (str/join ", " groups)]]
        [:div.flex-row
         [:button.iconic-btn {:type "button"}
          (-> (icons/icon :phosphor.regular/pencil-simple)
-             (icons/render (vars/icon-widths :medium)))]
+             (icons/render (sh/icon-widths :medium)))]
         [:button.iconic-btn {:type "button"}
          (-> (icons/icon :phosphor.regular/trash)
-             (icons/render (vars/icon-widths :medium)))]]])]])
+             (icons/render (sh/icon-widths :medium)))]]])]])
 
 (defn contacts
   []
   [:<>
-   (for [{:keys [contact expanded?]} (@vars/state :widget-states)]
+   (for [{:keys [contact expanded?]} (@sh/state :widget-states)]
      ^{:key (contact :id)} [contact-widget contact expanded?])])

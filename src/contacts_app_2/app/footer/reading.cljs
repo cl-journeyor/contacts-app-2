@@ -1,6 +1,8 @@
 (ns contacts-app-2.app.footer.reading
-  (:require [contacts-app-2.vars :as vars]
+  (:require [contacts-app-2.shared :as sh]
             [phosphor.icons :as icons]))
+
+;;;; Private components.
 
 (defn- iconic-btn
   [child handler]
@@ -16,36 +18,63 @@
    [:span]
    [:span]
    (-> (icons/icon :phosphor.regular/magnifying-glass)
-       (icons/render (vars/icon-widths :small)))])
+       (icons/render (sh/icon-widths :small)))])
+
+
+;;;; Private button handlers.
+
+(defn- reset-contacts!
+  []
+  (swap!
+   sh/state
+   (fn [prev]
+     (assoc
+      prev
+      :widget-states
+      (mapv sh/contact->widget-state (sh/read-contacts!))))))
+
+(defn- sort-contacts!
+  []
+  (swap!
+   sh/state
+   (fn [prev]
+     (update
+      prev
+      :widget-states
+      (fn [wss]
+        (sort-by #(-> % :contact :name) wss))))))
+
+
+;;;; Main component.
 
 (defn reading
   []
   [:<>
    [iconic-btn
     (-> (icons/icon :phosphor.regular/arrow-counter-clockwise)
-        (icons/render (vars/icon-widths :large)))
-    identity]
+        (icons/render (sh/icon-widths :large)))
+    reset-contacts!]
    [iconic-btn
     (-> (icons/icon :phosphor.regular/user-plus)
-        (icons/render (vars/icon-widths :large)))
+        (icons/render (sh/icon-widths :large)))
     identity]
    [search-by-btn
     (-> (icons/icon :phosphor.regular/user)
-        (icons/render (vars/icon-widths :small)))
+        (icons/render (sh/icon-widths :small)))
     identity]
    [search-by-btn
     (-> (icons/icon :phosphor.regular/users-three)
-        (icons/render (vars/icon-widths :small)))
+        (icons/render (sh/icon-widths :small)))
     identity]
    [iconic-btn
     (-> (icons/icon :phosphor.regular/sort-ascending)
-        (icons/render (vars/icon-widths :large)))
-    identity]
+        (icons/render (sh/icon-widths :large)))
+    sort-contacts!]
    [iconic-btn
     (-> (icons/icon :phosphor.regular/upload-simple)
-        (icons/render (vars/icon-widths :large)))
+        (icons/render (sh/icon-widths :large)))
     identity]
    [iconic-btn
     (-> (icons/icon :phosphor.regular/download-simple)
-        (icons/render (vars/icon-widths :large)))
+        (icons/render (sh/icon-widths :large)))
     identity]])
