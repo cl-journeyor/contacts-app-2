@@ -2,6 +2,7 @@
 
 :root {
   --padding: 4px;
+  --radius: 6px;
 }
 
 * {
@@ -28,16 +29,42 @@
 }
 
 .content {
+  background: #131313;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
   overflow: auto;
 }
 
+.field-group {
+  display: flex;
+  flex-direction: column;
+  padding: var(--padding);
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-row {
+  display: flex;
+}
+
+.footer {
+  background: purple;
+  display: flex;
+  overflow: auto;
+}
+
+.form-label {
+    margin-bottom: 4px;
+}
+
 .four-x-four-btn {
   background: purple;
   border-color: white;
-  border-radius: 7px;
+  border-radius: var(--radius);
   border-style: solid;
   border-width: 1px;
   display: grid;
@@ -56,7 +83,7 @@
 .iconic-btn {
   background: purple;
   border-color: white;
-  border-radius: 7px;
+  border-radius: var(--radius);
   border-style: solid;
   border-width: 1px;
   display: flex;
@@ -64,16 +91,19 @@
   padding: var(--padding);
 }
 
-.flex-column {
-  display: flex;
-  flex-direction: column;
-}
+.text-field {
+    /* Logic for this bg color:
+     * increase by 5 each RGB value of
+     * the main bg color.
+     */
+    background: #181818;
 
-.flex-row {
-  display: flex;
-}
-
-.footer {
-  background: purple;
-  display: flex;
+    border-bottom: white 1px solid;
+    border-left: none;
+    border-radius: var(--radius);
+    border-right: none;
+    border-top: none;
+    font-size: 1em;
+    padding: var(--padding);
+    resize: none;
 }

@@ -55,10 +55,7 @@
                :groups ["church"]}]]
     (.setItem js/localStorage "contacts" (str data))))
 
-(defn mount-root []
-  (-> (.getElementById js/document "app")
-      rdc/create-root
-      (rdc/render [app])))
+(defonce ^:private root (rdc/create-root (.getElementById js/document "app")))
 
 (defn ^:export init! []
-  (mount-root))
+  (rdc/render root [app]))

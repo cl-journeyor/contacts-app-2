@@ -5,7 +5,7 @@
 
 (defn app
   []
-  [:div.app-container {:style {:background "#9a4949"}}
+  [:div.app-container
    [header]
    [content]
    [footer]])

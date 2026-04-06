@@ -2,20 +2,13 @@
   (:require [misc.core :as misc]
             [reagent.core :as r]))
 
-;;;; Functions.
-
-(defn contact->widget-state
-  [contact]
-  {:contact contact
-   :expanded? false})
-
-(defn read-contacts!
+(defn load-widget-states!
   []
   (let [contacts-maybe (-> js/localStorage
                            (.getItem "contacts")
                            misc/try-parse)]
     (if (vector? contacts-maybe)
-      contacts-maybe
+      (mapv (fn [c] {:contact c :expanded? false}) contacts-maybe)
       (do
         (.setItem js/localStorage "contacts" "[]")
         []))))
@@ -23,9 +16,6 @@
 (defn write-contacts!
   [contacts]
   (.setItem js/localStorage "contacts" (str contacts)))
-
-
-;;;; Vars.
 
 (def icon-widths {:small {:width "1em"}
                   :medium {:width "1.5em"}
@@ -38,7 +28,10 @@
                 :searching-by-name
                 :searching-by-group})
 
-(def state (r/atom {:status (statuses :reading)
-                    :widget-states (mapv
-                                    contact->widget-state
-                                    (read-contacts!))}))
+(defn get-init-state!
+  []
+  {:selected-contact nil
+   :status (statuses :reading)
+   :widget-states (load-widget-states!)})
+
+(def state (r/atom (get-init-state!)))
