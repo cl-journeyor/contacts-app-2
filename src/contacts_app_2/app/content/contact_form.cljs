@@ -74,11 +74,6 @@
                                :on-change handle-input-change!
                                :placeholder "For ex.: family"
                                :value (@form :groups)}]]
-       [:button (if selected-contact-maybe "Update" "Create")]])))
-
-
-{:skipped-styles '(contact-form
-                   submit-button-container
-                   submit-button)}
-
-
+       [:div.submit-button-container
+        [:button.primary-btn
+         (if selected-contact-maybe "Update" "Create")]]])))
