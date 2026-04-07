@@ -73,6 +73,6 @@
   (let [widget-states (@sh/state :widget-states)]
     (if (empty? widget-states)
       [:div.field-group "No contacts found"]
-      [:<>
+      [:div.flex-column
        (for [{:keys [contact expanded?]} widget-states]
          ^{:key (contact :id)} [contact-widget contact expanded?])])))
