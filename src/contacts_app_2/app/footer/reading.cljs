@@ -29,7 +29,7 @@
 
 (defn- reset-contacts!
   []
-  (swap! sh/state #(assoc % :widget-states (sh/load-widget-states!))))
+  (reset! sh/state (sh/get-init-state!)))
 
 (defn- sort-contacts!
   []

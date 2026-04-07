@@ -2,7 +2,7 @@
   (:require [misc.core :as misc]
             [reagent.core :as r]))
 
-(defn load-widget-states!
+(defn- load-widget-states!
   []
   (let [contacts-maybe (-> js/localStorage
                            (.getItem "contacts")
