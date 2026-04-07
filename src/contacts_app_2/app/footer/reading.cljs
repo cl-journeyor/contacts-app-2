@@ -21,7 +21,7 @@
        (icons/render (sh/icon-widths :small)))])
 
 
-;;;; Private button handlers.
+;;;; Private event handlers.
 
 (defn- handle-create-contact!
   []
