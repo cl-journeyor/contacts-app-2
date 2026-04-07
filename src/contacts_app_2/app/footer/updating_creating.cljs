@@ -5,10 +5,10 @@
 (defn updating-creating
   []
   [:<>
-   [:button.iconic-btn {:type "button"
-                        :on-click (fn []
-                                    (reset!
-                                     sh/state
-                                     (sh/get-init-state!)))}
+   [:button.secondary-iconic-btn {:type "button"
+                                  :on-click (fn []
+                                              (reset!
+                                               sh/state
+                                               (sh/get-init-state!)))}
     (-> (icons/icon :phosphor.regular/arrow-left)
         (icons/render (sh/icon-widths :large)))]])

@@ -6,8 +6,8 @@
 
 (defn- iconic-btn
   [child handler]
-  [:button.iconic-btn {:type "button"
-                       :on-click handler}
+  [:button.secondary-iconic-btn {:type "button"
+                                 :on-click handler}
    child])
 
 (defn- search-by-btn
