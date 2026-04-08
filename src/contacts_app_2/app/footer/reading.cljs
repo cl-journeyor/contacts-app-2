@@ -2,6 +2,15 @@
   (:require [contacts-app-2.shared :as sh]
             [phosphor.icons :as icons]))
 
+;;;; Private functions.
+
+(defn- get-contacts-as-uri*
+  []
+  (str
+   "data:text/x-clojure;charset=utf-8,"
+   (js/encodeURIComponent (.getItem js/localStorage "contacts"))))
+
+
 ;;;; Private components.
 
 (defn- iconic-btn
@@ -72,7 +81,7 @@
     (-> (icons/icon :phosphor.regular/upload-simple)
         (icons/render (sh/icon-widths :large)))
     identity]
-   [iconic-btn
+   [:a.secondary-iconic-btn {:href (get-contacts-as-uri*)
+                             :download "contacts-app-2.edn"}
     (-> (icons/icon :phosphor.regular/download-simple)
-        (icons/render (sh/icon-widths :large)))
-    identity]])
+        (icons/render (sh/icon-widths :large)))]])
