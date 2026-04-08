@@ -44,4 +44,5 @@
      "Search by name"]
     [:input.text-field {:id "search-by-name-field"
                         :type "text"
-                        :on-change search!}]]])
+                        :on-change search!
+                        :auto-focus true}]]])

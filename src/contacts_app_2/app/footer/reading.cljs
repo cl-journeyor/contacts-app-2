@@ -23,15 +23,9 @@
 
 ;;;; Private event handlers.
 
-(defn- handle-create-contact!
-  []
-  (swap! sh/state (fn [prev] (assoc prev :status (sh/statuses :creating)))))
-
-(defn- handle-search-by-name!
-  []
-  (swap!
-   sh/state
-   (fn [prev] (assoc prev :status (sh/statuses :searching-by-name)))))
+(defn- change-app-status!
+  [kw]
+  (swap! sh/state (fn [prev] (assoc prev :status kw))))
 
 (defn- reset-contacts!
   []
@@ -61,15 +55,15 @@
    [iconic-btn
     (-> (icons/icon :phosphor.regular/user-plus)
         (icons/render (sh/icon-widths :large)))
-    handle-create-contact!]
+    (fn [] (change-app-status! (sh/statuses :creating)))]
    [search-by-btn
     (-> (icons/icon :phosphor.regular/user)
         (icons/render (sh/icon-widths :small)))
-    handle-search-by-name!]
+    (fn [] (change-app-status! (sh/statuses :searching-by-name)))]
    [search-by-btn
     (-> (icons/icon :phosphor.regular/users-three)
         (icons/render (sh/icon-widths :small)))
-    identity]
+    (fn [] (change-app-status! (sh/statuses :searching-by-group)))]
    [iconic-btn
     (-> (icons/icon :phosphor.regular/sort-ascending)
         (icons/render (sh/icon-widths :large)))

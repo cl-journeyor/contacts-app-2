@@ -48,7 +48,8 @@
                             :type "text"
                             :required true
                             :on-change handle-input-change!
-                            :value (@form :name)}]]
+                            :value (@form :name)
+                            :auto-focus true}]]
        [:div.field-group
         [:label.form-label {:for "phone-field"}
          "Phone number"]
