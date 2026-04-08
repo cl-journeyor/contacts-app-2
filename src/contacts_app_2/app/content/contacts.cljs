@@ -12,7 +12,9 @@
    (fn [prev]
      {:selected-contact contact
       :status (sh/statuses :deleting)
-      :widget-states (prev :widget-states)})))
+      :widget-states (mapv
+                      #(assoc % :visible? true)
+                      (prev :widget-states))})))
 
 (defn- handle-update-contact!
   [contact]
@@ -85,11 +87,12 @@
 (defn contacts
   []
   ;; selected-contact may be nil. Embracing nil punning.
-  (let [{:keys [selected-contact widget-states]} @sh/state]
-    (if (empty? widget-states)
+  (let [{:keys [selected-contact widget-states]} @sh/state
+        visible-wss (filterv :visible? widget-states)]
+    (if (empty? visible-wss)
       [:div.field-group "No contacts found"]
       [:div.flex-column
-       (for [{:keys [contact expanded?]} widget-states]
+       (for [{:keys [contact expanded?]} visible-wss]
          ^{:key (contact :id)}
          [contact-widget
           {:contact contact

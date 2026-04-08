@@ -25,7 +25,7 @@
 (defn deleting
   []
   [:<>
-   [:div.footer-label-container
+   [:div.footer-field-group
     "Delete selected contact?"]
    [:button.secondary-iconic-btn {:type "button"
                                   :on-click cancel!}

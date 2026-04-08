@@ -8,7 +8,9 @@
                            (.getItem "contacts")
                            misc/try-parse)]
     (if (vector? contacts-maybe)
-      (mapv (fn [c] {:contact c :expanded? false}) contacts-maybe)
+      (mapv
+       (fn [c] {:contact c :expanded? false :visible? true})
+       contacts-maybe)
       (do
         (.setItem js/localStorage "contacts" "[]")
         []))))

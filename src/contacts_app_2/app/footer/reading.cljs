@@ -27,6 +27,12 @@
   []
   (swap! sh/state (fn [prev] (assoc prev :status (sh/statuses :creating)))))
 
+(defn- handle-search-by-name!
+  []
+  (swap!
+   sh/state
+   (fn [prev] (assoc prev :status (sh/statuses :searching-by-name)))))
+
 (defn- reset-contacts!
   []
   (reset! sh/state (sh/get-init-state!)))
@@ -59,7 +65,7 @@
    [search-by-btn
     (-> (icons/icon :phosphor.regular/user)
         (icons/render (sh/icon-widths :small)))
-    identity]
+    handle-search-by-name!]
    [search-by-btn
     (-> (icons/icon :phosphor.regular/users-three)
         (icons/render (sh/icon-widths :small)))

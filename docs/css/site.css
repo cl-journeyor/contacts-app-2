@@ -1,7 +1,7 @@
 @import url('https://fonts.cdnfonts.com/css/figtree');
 
 :root {
-  --padding: 4px;
+  --pad: 4px;
   --radius: 6px;
 }
 
@@ -20,7 +20,7 @@
 
 .cell {
   overflow-wrap: anywhere;
-  padding: var(--padding);
+  padding: var(--pad);
 }
 
 .contact-widget {
@@ -37,7 +37,7 @@
 .field-group {
   display: flex;
   flex-direction: column;
-  padding: var(--padding);
+  padding: var(--pad);
 }
 
 .flex-column {
@@ -63,14 +63,18 @@
   overflow: auto;
 }
 
-.footer-label-container {
+.footer-field-group {
   align-items: center;
   display: flex;
-  padding: var(--padding);
+  padding: var(--pad);
+}
+
+.footer-label {
+  margin-right: var(--pad);
 }
 
 .form-label {
-    margin-bottom: 4px;
+    margin-bottom: var(--pad);
 }
 
 .four-x-four-btn {
@@ -85,13 +89,13 @@
   font-size: 1em;
   grid-template-rows: 1fr 1fr;
   grid-template-columns: 1fr 1fr;
-  padding: var(--padding);
+  padding: var(--pad);
 }
 
 .header {
   background: purple;
   color: white;
-  padding: var(--padding);
+  padding: var(--pad);
   text-align: center;
 }
 
@@ -103,7 +107,7 @@
   cursor: pointer;
   display: flex;
   font-size: 1em;
-  padding: var(--padding);
+  padding: var(--pad);
 }
 
 .primary-iconic-btn {
@@ -114,7 +118,7 @@
   cursor: pointer;
   display: flex;
   font-size: 1em;
-  padding: var(--padding);
+  padding: var(--pad);
 }
 
 .secondary-iconic-btn {
@@ -127,13 +131,13 @@
   cursor: pointer;
   display: flex;
   font-size: 1em;
-  padding: var(--padding);
+  padding: var(--pad);
 }
 
 .submit-button-container {
   display: flex;
   justify-content: center;
-  padding: var(--padding);
+  padding: var(--pad);
 }
 
 .text-field {
@@ -150,6 +154,6 @@
     border-top: none;
     color: white;
     font-size: 1em;
-    padding: var(--padding);
+    padding: var(--pad);
     resize: none;
 }
