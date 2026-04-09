@@ -77,10 +77,13 @@
     (-> (icons/icon :phosphor.regular/sort-ascending)
         (icons/render (sh/icon-widths :large)))
     sort-contacts!]
-   [iconic-btn
+   [:label.secondary-iconic-btn {:for "contacts-file-input"
+                                 :tab-index 0}
     (-> (icons/icon :phosphor.regular/upload-simple)
-        (icons/render (sh/icon-widths :large)))
-    identity]
+        (icons/render (sh/icon-widths :large)))]
+   [:input.file-input {:id "contacts-file-input"
+                       :type "file"
+                       :accept ".edn"}]
    [:a.secondary-iconic-btn {:href (get-contacts-as-uri*)
                              :download "contacts-app-2.edn"}
     (-> (icons/icon :phosphor.regular/download-simple)

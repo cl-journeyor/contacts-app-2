@@ -40,6 +40,10 @@
   padding: var(--pad);
 }
 
+.file-input {
+  display: none;
+}
+
 .flex-column {
   display: flex;
   flex-direction: column;
