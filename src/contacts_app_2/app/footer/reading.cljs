@@ -1,5 +1,6 @@
 (ns contacts-app-2.app.footer.reading
   (:require [contacts-app-2.shared :as sh]
+            [misc.core :as misc]
             [phosphor.icons :as icons]))
 
 ;;;; Private functions.
@@ -35,6 +36,32 @@
 (defn- change-app-status!
   [kw]
   (swap! sh/state (fn [prev] (assoc prev :status kw))))
+
+(defn- handle-contacts-file-input-change!
+  [e]
+  (when-let [contacts-file (-> e .-target .-files first)]
+    (let [contact->widget-state
+          (fn [c] {:contact c :expanded? false :visible? true})
+
+          file-reader
+          (js/FileReader.)
+
+          handle-read-file!
+          (fn []
+            (let [contacts-maybe (-> file-reader .-result misc/try-parse)]
+              (if (vector? contacts-maybe)
+                (do
+                  (sh/write-contacts! contacts-maybe)
+                  (swap!
+                   sh/state
+                   (fn [prev]
+                     (assoc
+                      prev
+                      :widget-states
+                      (mapv contact->widget-state contacts-maybe)))))
+                (js/alert "Couldn't read contacts from file"))))]
+      (set! (.-onload file-reader) handle-read-file!)
+      (.readAsText file-reader contacts-file))))
 
 (defn- reset-contacts!
   []
@@ -83,7 +110,8 @@
         (icons/render (sh/icon-widths :large)))]
    [:input.file-input {:id "contacts-file-input"
                        :type "file"
-                       :accept ".edn"}]
+                       :accept ".edn"
+                       :on-change handle-contacts-file-input-change!}]
    [:a.secondary-iconic-btn {:href (get-contacts-as-uri*)
                              :download "contacts-app-2.edn"}
     (-> (icons/icon :phosphor.regular/download-simple)
