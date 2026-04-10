@@ -71,6 +71,7 @@
   align-items: center;
   display: flex;
   padding: var(--pad);
+  white-space: nowrap;
 }
 
 .footer-label {
