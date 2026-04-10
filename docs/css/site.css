@@ -79,7 +79,12 @@
 }
 
 .form-label {
-    margin-bottom: var(--pad);
+  margin-bottom: var(--pad);
+}
+
+.form-label-yellow {
+  color: yellow;
+  margin-bottom: var(--pad);
 }
 
 .four-x-four-btn {
@@ -146,19 +151,19 @@
 }
 
 .text-field {
-    /* Logic for this bg color:
-     * increase by 5 each RGB value of
-     * the main bg color.
-     */
-    background: #181818;
+  /* Logic for this bg color:
+    * increase by 5 each RGB value of
+    * the main bg color.
+    */
+  background: #181818;
 
-    border-bottom: white 1px solid;
-    border-left: none;
-    border-radius: var(--radius);
-    border-right: none;
-    border-top: none;
-    color: white;
-    font-size: 1em;
-    padding: var(--pad);
-    resize: none;
+  border-bottom: white 1px solid;
+  border-left: none;
+  border-radius: var(--radius);
+  border-right: none;
+  border-top: none;
+  color: white;
+  font-size: 1em;
+  padding: var(--pad);
+  resize: none;
 }

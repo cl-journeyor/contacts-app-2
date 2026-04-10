@@ -1,6 +1,7 @@
 (ns contacts-app-2.app.content.contact-form
   (:require [clojure.string :as str]
             [contacts-app-2.shared :as sh]
+            [misc.core :as misc]
             [reagent.core :as r]))
 
 (defn contact-form
@@ -9,22 +10,36 @@
         (@sh/state :selected-contact)
 
         form
-        (r/atom (if selected-contact-maybe
-                  (update
-                   selected-contact-maybe
-                   :groups
-                   #(str/join "\n" %))
-                  {:name ""
-                   :phone ""
-                   :email ""
-                   :groups ""}))
+        (r/atom {:valid-name-on-blur? true
+                 :fields (if selected-contact-maybe
+                           (update
+                            selected-contact-maybe
+                            :groups
+                            #(str/join "\n" %))
+                           {:name ""
+                            :phone ""
+                            :email ""
+                            :groups ""})})
+        
+        handle-name-field-blur!
+        (fn [e]
+          (when (-> e .-target .-value misc/trim-empty?)
+            (swap!
+             form
+             #(assoc % :valid-name-on-blur? false))))
+
+        handle-name-field-focus!
+        (fn []
+          (swap!
+           form
+           #(assoc % :valid-name-on-blur? true)))
 
         handle-input-change!
         (fn [e]
           (swap! form (fn [prev]
-                        (assoc
+                        (assoc-in
                          prev
-                         (-> e .-target .-name keyword)
+                         [:fields (-> e .-target .-name keyword)]
                          (-> e .-target .-value)))))
 
         create!
@@ -36,6 +51,7 @@
                               (apply max (map :id contacts)))
                             inc)
                 new-contact (-> @form
+                                :fields
                                 (update :groups #(str/split % #"\n"))
                                 (assoc :id next-id))]
             (sh/write-contacts! (conj contacts new-contact))
@@ -47,6 +63,7 @@
           (let [selected-contact-id (selected-contact-maybe :id)
                 contacts (mapv :contact (@sh/state :widget-states))
                 updated-contact (-> @form
+                                    :fields
                                     (update :groups #(str/split % #"\n"))
                                     (assoc :id selected-contact-id))]
             (sh/write-contacts! (mapv
@@ -59,14 +76,19 @@
     (fn []
       [:form {:on-submit (if selected-contact-maybe update! create!)}
        [:div.field-group
-        [:label.form-label {:for "name-field"}
-         "Name (required)"]
+        (if (@form :valid-name-on-blur?)
+          [:label.form-label {:for "name-field"}
+           "Name (required)"]
+          [:label.form-label-yellow {:for "name-field"}
+           "Please enter a name"])
         [:input.text-field {:id "name-field"
                             :name "name"
                             :type "text"
                             :required true
                             :on-change handle-input-change!
-                            :value (@form :name)
+                            :on-focus handle-name-field-focus!
+                            :on-blur handle-name-field-blur!
+                            :value (-> @form :fields :name)
                             :auto-focus true}]]
        [:div.field-group
         [:label.form-label {:for "phone-field"}
@@ -75,7 +97,7 @@
                             :name "phone"
                             :type "tel"
                             :on-change handle-input-change!
-                            :value (@form :phone)}]]
+                            :value (-> @form :fields :phone)}]]
        [:div.field-group
         [:label.form-label {:for "email-field"}
          "Email address"]
@@ -83,7 +105,7 @@
                             :name "email"
                             :type "email"
                             :on-change handle-input-change!
-                            :value (@form :email)}]]
+                            :value (-> @form :fields :email)}]]
        [:div.field-group
         [:label.form-label {:for "groups-field"}
          "Groups, one per line"]
@@ -92,7 +114,7 @@
                                :rows 3
                                :on-change handle-input-change!
                                :placeholder "For ex.: family"
-                               :value (@form :groups)}]]
+                               :value (-> @form :fields :groups)}]]
        [:div.submit-button-container
         [:button.primary-btn
          (if selected-contact-maybe "Update" "Create")]]])))
