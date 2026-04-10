@@ -116,5 +116,8 @@
                                :placeholder "For ex.: family"
                                :value (-> @form :fields :groups)}]]
        [:div.submit-button-container
-        [:button.primary-btn
+        [:button.primary-btn {:disabled (-> @form
+                                            :fields
+                                            :name
+                                            misc/trim-empty?)}
          (if selected-contact-maybe "Update" "Create")]]])))

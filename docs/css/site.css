@@ -120,6 +120,11 @@
   padding: var(--pad);
 }
 
+.primary-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.25;
+}
+
 .primary-iconic-btn {
   background: white;
   border-radius: var(--radius);
