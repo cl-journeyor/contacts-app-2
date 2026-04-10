@@ -22,7 +22,8 @@
   (reset! search-text (-> e .-target .-value)))
 
 (defn- search!
-  []
+  [e]
+  (.preventDefault e)
   (let [search-txt
         (.toLocaleLowerCase @search-text)
 
@@ -46,14 +47,15 @@
                                   :on-click cancel!}
     (-> (icons/icon :phosphor.regular/arrow-left)
         (icons/render (sh/icon-widths :large)))]
-   [:div.footer-field-group
+   [:form.footer-field-group {:id "search-by-group-form"
+                              :on-submit search!}
     [:label.footer-label {:for "search-by-group-field"}
      "Search by group"]
     [:input.text-field {:id "search-by-group-field"
+                        :name "search-text"
                         :type "text"
                         :on-change handle-input-change!
                         :auto-focus true}]]
-   [:button.primary-iconic-btn {:type "button"
-                                :on-click search!}
+   [:button.primary-iconic-btn {:form "search-by-group-form"}
     (-> (icons/icon :phosphor.regular/magnifying-glass)
         (icons/render (sh/icon-widths :large)))]])
