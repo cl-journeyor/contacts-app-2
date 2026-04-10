@@ -5,39 +5,57 @@
 
 (defn contact-form
   []
-  (let [{:keys [id name phone email groups] ; May be nil.
-         :as selected-contact-maybe} (@sh/state :selected-contact)
-        form (r/atom {:name name
-                      :phone phone
-                      :email email
-                      :groups (when groups (str/join "\n" groups))})
-        handle-input-change! (fn [e]
-                               (swap! form #(assoc
-                                             %
-                                             (-> e .-target .-name keyword)
-                                             (-> e .-target .-value))))
-        create! (fn [e]
-                  (.preventDefault e)
-                  (let [contacts (mapv :contact (@sh/state :widget-states))
-                        next-id (-> (if (empty? contacts)
-                                      0
-                                      (apply max (map :id contacts)))
-                                    inc)
-                        new-contact (-> @form
-                                        (update :groups #(str/split % #"\n"))
-                                        (assoc :id next-id))]
-                    (sh/write-contacts! (conj contacts new-contact))
-                    (reset! sh/state (sh/get-init-state!))))
-        update! (fn [e]
-                  (.preventDefault e)
-                  (let [contacts (mapv :contact (@sh/state :widget-states))
-                        updated-contact (-> @form
-                                            (update :groups #(str/split % #"\n"))
-                                            (assoc :id id))]
-                    (sh/write-contacts! (mapv
-                                         #(if (= (% :id) id) updated-contact %)
-                                         contacts))
-                    (reset! sh/state (sh/get-init-state!))))]
+  (let [selected-contact-maybe
+        (@sh/state :selected-contact)
+
+        form
+        (r/atom (if selected-contact-maybe
+                  (update
+                   selected-contact-maybe
+                   :groups
+                   #(str/join "\n" %))
+                  {:name ""
+                   :phone ""
+                   :email ""
+                   :groups ""}))
+
+        handle-input-change!
+        (fn [e]
+          (swap! form (fn [prev]
+                        (assoc
+                         prev
+                         (-> e .-target .-name keyword)
+                         (-> e .-target .-value)))))
+
+        create!
+        (fn [e]
+          (.preventDefault e)
+          (let [contacts (mapv :contact (@sh/state :widget-states))
+                next-id (-> (if (empty? contacts)
+                              0
+                              (apply max (map :id contacts)))
+                            inc)
+                new-contact (-> @form
+                                (update :groups #(str/split % #"\n"))
+                                (assoc :id next-id))]
+            (sh/write-contacts! (conj contacts new-contact))
+            (reset! sh/state (sh/get-init-state!))))
+        
+        update!
+        (fn [e]
+          (.preventDefault e)
+          (let [selected-contact-id (selected-contact-maybe :id)
+                contacts (mapv :contact (@sh/state :widget-states))
+                updated-contact (-> @form
+                                    (update :groups #(str/split % #"\n"))
+                                    (assoc :id selected-contact-id))]
+            (sh/write-contacts! (mapv
+                                 (fn [c]
+                                   (if (= (c :id) selected-contact-id)
+                                     updated-contact
+                                     c))
+                                 contacts))
+            (reset! sh/state (sh/get-init-state!))))]
     (fn []
       [:form {:on-submit (if selected-contact-maybe update! create!)}
        [:div.field-group

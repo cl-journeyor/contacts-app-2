@@ -5,11 +5,12 @@
 
 ;;;; Private functions.
 
-(defn- get-contacts-as-uri*
+(defn- get-contacts-as-uri
   []
-  (str
-   "data:text/x-clojure;charset=utf-8,"
-   (js/encodeURIComponent (.getItem js/localStorage "contacts"))))
+  (let [contacts-str (str (mapv :contact (@sh/state :widget-states)))]
+    (str
+     "data:text/x-clojure;charset=utf-8,"
+     (js/encodeURIComponent contacts-str))))
 
 
 ;;;; Private components.
@@ -49,6 +50,7 @@
           handle-read-file!
           (fn []
             (let [contacts-maybe (-> file-reader .-result misc/try-parse)]
+              (set! (-> e .-target .-value) "")
               (if (vector? contacts-maybe)
                 (do
                   (sh/write-contacts! contacts-maybe)
@@ -62,6 +64,11 @@
                 (js/alert "Couldn't read contacts from file"))))]
       (set! (.-onload file-reader) handle-read-file!)
       (.readAsText file-reader contacts-file))))
+
+(defn- handle-contacts-file-label-enter!
+  [e]
+  (when (= (.-key e) "Enter")
+    (.click (.-target e))))
 
 (defn- reset-contacts!
   []
@@ -104,15 +111,17 @@
     (-> (icons/icon :phosphor.regular/sort-ascending)
         (icons/render (sh/icon-widths :large)))
     sort-contacts!]
-   [:label.secondary-iconic-btn {:for "contacts-file-input"
-                                 :tab-index 0}
+   [:label.secondary-iconic-btn
+    {:for "contacts-file-input"
+     :tab-index 0
+     :on-key-press handle-contacts-file-label-enter!}
     (-> (icons/icon :phosphor.regular/upload-simple)
         (icons/render (sh/icon-widths :large)))]
    [:input.file-input {:id "contacts-file-input"
                        :type "file"
                        :accept ".edn"
                        :on-change handle-contacts-file-input-change!}]
-   [:a.secondary-iconic-btn {:href (get-contacts-as-uri*)
+   [:a.secondary-iconic-btn {:href (get-contacts-as-uri)
                              :download "contacts-app-2.edn"}
     (-> (icons/icon :phosphor.regular/download-simple)
         (icons/render (sh/icon-widths :large)))]])
