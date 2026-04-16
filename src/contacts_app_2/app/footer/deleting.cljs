@@ -28,10 +28,12 @@
    [:div.footer-field-group
     "Delete selected contact?"]
    [:button.secondary-iconic-btn {:type "button"
+                                  :title "No"
                                   :on-click cancel!}
     (-> (icons/icon :phosphor.regular/x)
         (icons/render (sh/icon-widths :large)))]
    [:button.primary-iconic-btn {:type "button"
+                                :title "Yes"
                                 :on-click delete!}
     (-> (icons/icon :phosphor.regular/check)
         (icons/render (sh/icon-widths :large)))]])

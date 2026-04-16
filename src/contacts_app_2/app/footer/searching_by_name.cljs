@@ -36,6 +36,7 @@
   []
   [:<>
    [:button.secondary-iconic-btn {:type "button"
+                                  :title "Cancel"
                                   :on-click cancel!}
     (-> (icons/icon :phosphor.regular/arrow-left)
         (icons/render (sh/icon-widths :large)))]

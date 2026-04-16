@@ -45,14 +45,19 @@
     :keys [expanded? highlighted?]}]
   [:div.contact-widget
    [:div
-    [:button.secondary-iconic-btn
-     {:type "button"
-      :on-click (fn [] (toggle-widget-expanded! id))}
-     (if expanded?
+    (if expanded?
+      [:button.secondary-iconic-btn
+       {:type "button"
+        :title "Collapse"
+        :on-click (fn [] (toggle-widget-expanded! id))}
        (-> (icons/icon :phosphor.regular/caret-up)
-           (icons/render (sh/icon-widths :small)))
+           (icons/render (sh/icon-widths :small)))]
+      [:button.secondary-iconic-btn
+       {:type "button"
+        :title "Expand"
+        :on-click (fn [] (toggle-widget-expanded! id))}
        (-> (icons/icon :phosphor.regular/caret-down)
-           (icons/render (sh/icon-widths :small))))]]
+           (icons/render (sh/icon-widths :small)))])]
    [:div {:class (if highlighted? "flex-column-yellow" "flex-column")}
     [:div.flex-row
      [:div.cell (-> (icons/icon :phosphor.regular/user)
@@ -75,11 +80,13 @@
        [:div.flex-row
         [:button.secondary-iconic-btn
          {:type "button"
+          :title "Update"
           :on-click (fn [] (handle-update-contact! contact))}
          (-> (icons/icon :phosphor.regular/pencil-simple)
              (icons/render (sh/icon-widths :medium)))]
         [:button.secondary-iconic-btn
          {:type "button"
+          :title "Delete"
           :on-click (fn [] (handle-delete-contact! contact))}
          (-> (icons/icon :phosphor.regular/trash)
              (icons/render (sh/icon-widths :medium)))]]])]])

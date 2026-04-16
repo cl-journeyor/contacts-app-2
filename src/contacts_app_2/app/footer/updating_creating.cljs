@@ -6,6 +6,7 @@
   []
   [:<>
    [:button.secondary-iconic-btn {:type "button"
+                                  :title "Cancel"
                                   :on-click (fn []
                                               (reset!
                                                sh/state

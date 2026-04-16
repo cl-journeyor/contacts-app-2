@@ -16,15 +16,17 @@
 ;;;; Private components.
 
 (defn- iconic-btn
-  [child handler]
+  [{:keys [title on-click]} child]
   [:button.secondary-iconic-btn {:type "button"
-                                 :on-click handler}
+                                 :title title
+                                 :on-click on-click}
    child])
 
 (defn- search-by-btn
-  [child handler]
+  [{:keys [title on-click]} child]
   [:button.four-x-four-btn {:type "button"
-                            :on-click handler}
+                            :title title
+                            :on-click on-click}
    child
    [:span]
    [:span]
@@ -91,29 +93,32 @@
 (defn reading
   []
   [:<>
-   [iconic-btn
+   [iconic-btn {:title "Refresh"
+                :on-click reset-contacts!}
     (-> (icons/icon :phosphor.regular/arrow-counter-clockwise)
-        (icons/render (sh/icon-widths :large)))
-    reset-contacts!]
-   [iconic-btn
+        (icons/render (sh/icon-widths :large)))]
+   [iconic-btn {:title "Create contact"
+                :on-click (fn [] (change-app-status! (sh/statuses :creating)))}
     (-> (icons/icon :phosphor.regular/user-plus)
-        (icons/render (sh/icon-widths :large)))
-    (fn [] (change-app-status! (sh/statuses :creating)))]
+        (icons/render (sh/icon-widths :large)))]
    [search-by-btn
+    {:title "Search by name"
+     :on-click (fn [] (change-app-status! (sh/statuses :searching-by-name)))}
     (-> (icons/icon :phosphor.regular/user)
-        (icons/render (sh/icon-widths :small)))
-    (fn [] (change-app-status! (sh/statuses :searching-by-name)))]
+        (icons/render (sh/icon-widths :small)))]
    [search-by-btn
+    {:title "Search by group"
+     :on-click (fn [] (change-app-status! (sh/statuses :searching-by-group)))}
     (-> (icons/icon :phosphor.regular/users-three)
-        (icons/render (sh/icon-widths :small)))
-    (fn [] (change-app-status! (sh/statuses :searching-by-group)))]
-   [iconic-btn
+        (icons/render (sh/icon-widths :small)))]
+   [iconic-btn {:title "Sort contacts by name"
+                :on-click sort-contacts!}
     (-> (icons/icon :phosphor.regular/sort-ascending)
-        (icons/render (sh/icon-widths :large)))
-    sort-contacts!]
+        (icons/render (sh/icon-widths :large)))]
    [:label.secondary-iconic-btn
     {:for "contacts-file-input"
      :tab-index 0
+     :title "Upload contacts .edn"
      :on-key-press handle-contacts-file-label-enter!}
     (-> (icons/icon :phosphor.regular/upload-simple)
         (icons/render (sh/icon-widths :large)))]
@@ -122,6 +127,7 @@
                        :accept ".edn"
                        :on-change handle-contacts-file-input-change!}]
    [:a.secondary-iconic-btn {:href (get-contacts-as-uri)
+                             :title "Download contacts .edn"
                              :download "contacts-app-2.edn"}
     (-> (icons/icon :phosphor.regular/download-simple)
         (icons/render (sh/icon-widths :large)))]])

@@ -45,6 +45,7 @@
     (fn []
       [:<>
        [:button.secondary-iconic-btn {:type "button"
+                                      :title "Cancel"
                                       :on-click cancel!}
         (-> (icons/icon :phosphor.regular/arrow-left)
             (icons/render (sh/icon-widths :large)))]
@@ -57,6 +58,7 @@
                             :type "text"
                             :on-change handle-input-change!
                             :auto-focus true}]]
-       [:button.primary-iconic-btn {:form "search-by-group-form"}
+       [:button.primary-iconic-btn {:form "search-by-group-form"
+                                    :title "Search"}
         (-> (icons/icon :phosphor.regular/magnifying-glass)
             (icons/render (sh/icon-widths :large)))]])))
