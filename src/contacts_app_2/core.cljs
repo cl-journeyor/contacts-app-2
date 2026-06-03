@@ -1,12 +1,12 @@
 (ns contacts-app-2.core
-  (:require
-   [contacts-app-2.app :refer [app]]
-   [reagent.dom.client :as rdc]))
+  (:require [contacts-app-2.app :refer [app]]
+            [reagent.dom.client :as rdc]))
 
-;; -------------------------
-;; Initialize app
+(defonce ^:private root (-> (.getElementById js/document "app")
+                            rdc/create-root))
 
-(defonce ^:private root (rdc/create-root (.getElementById js/document "app")))
-
-(defn ^:export init! []
+(defn mount-root
+  []
   (rdc/render root [app]))
+
+(mount-root)
