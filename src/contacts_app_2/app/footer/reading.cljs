@@ -119,7 +119,7 @@
     {:for "contacts-file-input"
      :tab-index 0
      :title "Upload contacts .edn"
-     :on-key-press handle-contacts-file-label-enter!}
+     :on-key-down handle-contacts-file-label-enter!}
     (-> (icons/icon :phosphor.regular/upload-simple)
         (icons/render (sh/icon-widths :large)))]
    [:input.file-input {:id "contacts-file-input"
